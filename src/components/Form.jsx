@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {Link} from "react-router-dom";
 
 function Form(props) {
     const [name, setName] = useState('');
@@ -21,9 +22,7 @@ function Form(props) {
     return (
         <form onSubmit={handleSubmit}>
             <h2 className="label-wrapper">
-                <label htmlFor="new-todo-input" className="label__lg">
-                    What needs to be done?
-                </label>
+                <Link className="label__lg" to={"/fetch"}>Go to Fetch Page</Link>
             </h2>
 
             <input
