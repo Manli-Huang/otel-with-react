@@ -22,7 +22,8 @@ function Form(props) {
     return (
         <form onSubmit={handleSubmit}>
             <h2 className="label-wrapper">
-                <Link className="label__lg" to={"/fetch"}>Go to Fetch Page</Link>
+                <Link to={"/fetch"}>Go to Fetch Page</Link>
+                <label className="label__lg">Compliance Listing Page</label>
             </h2>
 
             <input
