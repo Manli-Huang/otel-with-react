@@ -1,16 +1,15 @@
 import React from "react";
-import {Route, BrowserRouter, Switch, Redirect} from 'react-router-dom';
-import TodoPage from "./pages/TodoPage";
-import FetchPage from "./pages/FetchPage";
+import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import CompliancesListPage from "./pages/CompliancesListPage";
+import ComplianceDetailPage from "./pages/ComplianceDetailPage";
 
 function App() {
   return (
       <>
           <BrowserRouter>
               <Switch>
-                  <Route exact path="/todo" component={TodoPage} />
-                  <Route exact path="/fetch" component={FetchPage} />
-                  <Redirect to={"/todo"} />
+                  <Route exact path="/compliances" component={CompliancesListPage} />
+                  <Route exact path="/compliances/:id" component={ComplianceDetailPage} />
               </Switch>
           </BrowserRouter>
       </>

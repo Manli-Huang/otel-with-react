@@ -61,6 +61,7 @@ body {
   font: 1.6rem/1.25 Arial, sans-serif;
   background-color: #f5f5f5;
   color: #4d4d4d;
+  height: 100%;
 }
 @media screen and (min-width: 620px) {
   body {
@@ -75,7 +76,7 @@ body {
   margin-top: 0.4rem;
 }
 .btn {
-  padding: 0.8rem 1rem 0.7rem;
+  padding: 5px 0;
   border: 0.2rem solid #4d4d4d;
   cursor: pointer;
   text-transform: capitalize;
@@ -89,9 +90,14 @@ body {
   border-color: #4d4d4d;
 }
 .btn__danger {
+  width: 100px;
+  height: 30px;
+  margin-left: 20px;
   color: #fff;
   background-color: #ca3c3c;
   border-color: #bd2130;
+  font-size: 14px;
+  float: right;
 }
 .btn__filter {
   border-color: lightgrey;
@@ -179,10 +185,12 @@ body {
   padding: 0.8rem;
   margin-bottom: 1rem;
   text-align: center;
+  height: 50px;
 }
 .input__lg {
   padding: 2rem;
   border: 2px solid #000;
+  height: 100px;
 }
 .input__lg:focus {
   border-color: #4d4d4d;
@@ -201,10 +209,7 @@ body {
     font-size: 2.4rem;
   }
 }
-.filters {
-  width: 100%;
-  margin: unset auto;
-}
+
 /* Todo item styles */
 .todo {
   display: flex;
@@ -220,74 +225,18 @@ body {
   padding: 0.4rem 0.8rem;
   border: 2px solid #565656;
 }
-.todo-text:focus {
-  box-shadow: inset 0 0 0 2px;
+/*.todo-text:focus {*/
+/*  box-shadow: inset 0 0 0 2px;*/
+/*}*/
+
+.compliance-item:link {
+  text-decoration: none;
 }
-/* CHECKBOX STYLES */
-.c-cb {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-weight: 400;
-  font-size: 1.6rem;
-  line-height: 1.25;
-  display: block;
-  position: relative;
-  min-height: 44px;
-  padding-left: 40px;
-  clear: left;
+
+.compliance-item:visited {
+  color: #4d4d4d;
 }
-.c-cb > label::before,
-.c-cb > input[type="checkbox"] {
-  box-sizing: border-box;
-  top: -2px;
-  left: -2px;
-  width: 44px;
-  height: 44px;
-}
-.c-cb > input[type="checkbox"] {
-  -webkit-font-smoothing: antialiased;
-  cursor: pointer;
-  position: absolute;
-  z-index: 1;
-  margin: 0;
-  opacity: 0;
-}
-.c-cb > label {
-  font-size: inherit;
-  font-family: inherit;
-  line-height: inherit;
-  display: inline-block;
-  margin-bottom: 0;
-  padding: 8px 15px 5px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.c-cb > label::before {
-  content: "";
-  position: absolute;
-  border: 2px solid currentColor;
-  background: transparent;
-}
-.c-cb > input[type="checkbox"]:focus + label::before {
-  border-width: 4px;
-  outline: 3px dashed #228bec;
-}
-.c-cb > label::after {
-  box-sizing: content-box;
-  content: "";
-  position: absolute;
-  top: 11px;
-  left: 9px;
-  width: 18px;
-  height: 7px;
-  transform: rotate(-45deg);
-  border: solid;
-  border-width: 0 0 5px 5px;
-  border-top-color: transparent;
-  opacity: 0;
-  background: transparent;
-}
-.c-cb > input[type="checkbox"]:checked + label::after {
-  opacity: 1;
+
+.add_btn {
+  margin: 10px auto 20px;
 }

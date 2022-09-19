@@ -1,17 +1,22 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {getTracer, withTracing} from "../tracing-helper";
+
+const rootSpan = getTracer().startSpan('Todo-root');
 
 function Form(props) {
     const [name, setName] = useState('');
-
 
     function handleSubmit(e) {
         e.preventDefault();
         if (!name.trim()) {
             return;
         }
-        props.addTask(name);
-        setName("");
+        withTracing(`createTodo: ${name}`,()=>{
+            props.addTask(name);
+            setName("");
+        }, rootSpan);
+        props.setParentSpan(rootSpan);
+
     }
 
 
@@ -22,7 +27,6 @@ function Form(props) {
     return (
         <form onSubmit={handleSubmit}>
             <h2 className="label-wrapper">
-                <Link to={"/fetch"}>Go to Fetch Page</Link>
                 <label className="label__lg">Compliance Listing Page</label>
             </h2>
 
@@ -35,7 +39,7 @@ function Form(props) {
                 value={name}
                 onChange={handleChange}
             />
-            <button type="submit" className="btn btn__primary btn__lg">
+            <button type="submit" className="btn btn__primary btn__lg add_btn">
                 Add
             </button>
         </form>
