@@ -13,37 +13,32 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 
-// app.get('/compliances/:id', (req, res) => {
-//   const currentSpan = api.trace.getSpan(api.context.active());
-//   console.log(`currentSpan: ${currentSpan}`);
-//   const span = tracer.startSpan(`getComplianceById`, {
-//     kind: 1, // server
-//     attributes: { key: 'value' },
-//   });
-//   span.addEvent('compliance sent');
-//   const foundCompliance = COMPLIANCES.find(compliance => compliance.id === req.params.id);
-//   if (!foundCompliance) {
-//     span.end();
-//     return res.status(404).end;
-//   }
-//   span.end();
-//   res.status(200).json(foundCompliance);
-// });
+app.get('/compliances/:id', (req, res) => {
+  const currentSpan = api.trace.getSpan(api.context.active());
+  console.log(`traceid for detail: ${currentSpan ? currentSpan.spanContext().traceId : 'no trace id'}`);
+  const foundCompliance = COMPLIANCES.find(compliance => compliance.id === req.params.id);
+  if (!foundCompliance) {
+    return res.status(404).end;
+  }
+  res.status(200).json(foundCompliance);
+});
 
 app.get('/compliances', (req, res) => {
   const currentSpan = api.trace.getSpan(api.context.active());
   console.log(`traceid: ${currentSpan ? currentSpan.spanContext().traceId : 'no trace id'}`);
-  const span = tracer.startSpan('getCompliances', {
+  const span = tracer.startSpan('get compliances', {
     kind: 1, // server
-    attributes: { key: 'value' },
+    attributes: { serverSide: 'compliances server' },
   });
-  span.addEvent('compliances sent');
-  span.end();
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Request-Method', '*');
-  res.set('Access-Control-Allow-Methods', '*');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.status(200).json(COMPLIANCES);
+  setTimeout(()=> {
+    span.addEvent('compliances sent');
+    span.end();
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Request-Method', '*');
+    res.set('Access-Control-Allow-Methods', '*');
+    res.set('Access-Control-Allow-Headers', '*');
+    res.status(200).json(COMPLIANCES);
+  }, 2000);
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

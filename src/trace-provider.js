@@ -43,8 +43,8 @@ registerInstrumentations({
       ],
       clearTimingResources: true
     }),
-    // new DocumentLoadInstrumentation(),
-    // new UserInteractionInstrumentation(),
+    new DocumentLoadInstrumentation(),
+    new UserInteractionInstrumentation(),
   ],
 });
 const webTracer = provider.getTracer('otel-react')

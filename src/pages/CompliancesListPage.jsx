@@ -1,33 +1,33 @@
 import React, {useState, useRef, useEffect} from "react";
 import Form from "../components/Form";
-import Todo from "../components/ComplianceDetail";
+import ComplianceDetail from "../components/ComplianceDetail";
 import {nanoid} from "nanoid";
 import {trace, context} from '@opentelemetry/api';
 
 const CompliancesListPage = () => {
-    const [tasks, setTasks] = useState([]);
+    const [compliances, setCompliances] = useState([]);
     const [parentSpan, setParentSpan] = useState(null);
 
-    const deleteTask = (e, id) => {
+    const deleteCompliance = (e, id) => {
         e.preventDefault();
-        const remainingTasks = tasks.filter(task => id !== task.id);
-        setTasks(remainingTasks);
+        const remainingTasks = compliances.filter(task => id !== task.id);
+        setCompliances(remainingTasks);
     }
 
-    const taskList = tasks
+    const taskList = compliances
         .map(task => (
-            <Todo
+            <ComplianceDetail
                 id={task.id}
                 name={task.name}
                 key={task.id}
-                deleteTask={(e) => deleteTask(e, task.id)}
+                deleteCompliance={(e) => deleteCompliance(e, task.id)}
                 rootSpan={parentSpan}
             />
         ));
 
     function addTask(name) {
         const newTask = { id: "todo-" + nanoid(), name: name, completed: false };
-        setTasks([...tasks, newTask]);
+        setCompliances([...compliances, newTask]);
     }
 
 
@@ -38,9 +38,9 @@ const CompliancesListPage = () => {
 
     useEffect(() => {
         const { webTracer } = window;
-        console.log('web', webTracer);
-        const listSpan = webTracer.startSpan('list-span');
-        console.log('active', context.active())
+        const listSpan = webTracer.startSpan('list-span',{
+            attributes: {organization: 'manny'}
+        });
         context.with(trace.setSpan(context.active(), listSpan), () => {
             fetch('http://localhost:5000/compliances', {
                 method: 'GET',
@@ -48,13 +48,25 @@ const CompliancesListPage = () => {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 }
-            }).then(async (res) => {
-                // trace.getSpan(context.active()).addEvent('fetching-single-span-completed');
-                listSpan.end();
-                setTasks(await res.json());
+            }).then((res) => {
+                setTimeout(async () => {
+                    trace.getSpan(context.active()).addEvent('fetched after 1 sec');
+                    setTimeout(() => {
+                        listSpan.end();
+                    }, 500);
+                    setCompliances(await res.json());
+                }, 1000)
             });
+            // fetch('http://localhost:5000/compliances', {
+            //     method: 'GET',
+            //     headers: {
+            //         Accept: 'application/json',
+            //         'Content-Type': 'application/json'
+            //     }
+            // }).then(async (res) => {
+            //    setCompliances(await res.json());
+            // });
         });
-
     }, []);
 
     return (
